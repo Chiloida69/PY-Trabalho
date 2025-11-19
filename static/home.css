@@ -3,6 +3,7 @@ body {
     background-color: #000000;
     margin: 0;
     padding: 0;
+
 }
  .carousel-item, img {
     width: 100%;
@@ -10,5 +11,48 @@ body {
     object-fit:cover;
 }
 #carrossel {
+    margin: bottom 5px; 
+}
+.boxcontainer {
+    padding: 0%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    
+}
+.box {
+    border-radius: 20px;
+    background-color: #00000047;
+    color: #fffffff1;
+    width: 950px;
+    height: 400px;
+    justify-content: center;
+    align-items: center;
+    display: grid;
+    justify-items: center;
+    padding: 5px;
+}
+#box2 {
+    border-radius: 20px;
+    background-color: #8000ff;
+    color: #ffffff;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex ;
+    justify-items: center;
+    padding: 2px;
+    padding-top: 18px;
+}
+.boxcontainer h2 {
+    font-size: 2.5em;
     margin-bottom: 20px;
+}
+#box2,a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
 }

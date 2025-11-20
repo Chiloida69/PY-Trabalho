@@ -13,6 +13,9 @@ body {
 #carrossel {
     margin: bottom 5px; 
 }
+#NAV{
+    background-color: #8000ff;
+}
 .boxcontainer {
     padding: 0%;
     display: flex;

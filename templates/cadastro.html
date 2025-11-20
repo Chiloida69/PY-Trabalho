@@ -13,14 +13,14 @@
     <!-- Navbar inicio -->
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="">Stock.Flow</a>
+    <a class="navbar-brand" href="{{ url_for('main') }}">Stock.Flow</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/templates/cadastro.html">Home</a>
+          <a class="nav-link active" aria-current="page" href="{{ url_for('cadastro') }}">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Features</a>
@@ -37,20 +37,33 @@
 </nav>
 <!-- Fim da navbar -->
 <!-- Inicio formulario cadastro -->
-<div class="form-container">
-    <h2>Cadastro</h2>
-    <form action="/submit_registration" method="post">
-        <label for="username">Nome de Usuário:</label>
-        <input type="text" id="username" name="username" required>
-    
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-    
-        <label for="password">Senha:</label>
-        <input type="password" id="password" name="password" required>
-    
-        <button type="submit">Registrar</button>
-    </form>
-    
+<div class="container_cadastro">
+  <form method="post">
+    {{ form.hidden_tag() }} <!-- Proteção contra CSRF -->
+    <h2>cadastro</h2>
+    <div class="mb-3">  
+      {{ form.PrimeiroNome.label(class="form-label") }}
+      {{ form.PrimeiroNome(class="form-control", placeholder="Digite seu primeiro nome") }}
+    </div>
+    <div class="mb-3">
+      {{ form.Sobrenome.label(class="form-label") }}
+      {{ form.Sobrenome(class="form-control", placeholder="Digite seu sobrenome") }}
+    </div> 
+    <div class="mb-3">
+      {{ form.Email.label(class="form-label") }}
+      {{ form.Email(class="form-control", placeholder="Digite seu email") }}
+    </div>
+    <div class="mb-3">
+      {{ form.Senha.label(class="form-label") }}
+      {{ form.Senha(class="form-control", placeholder="Digite sua senha") }}      
+    </div>
+    <div class="mb-3">
+      {{ form.ConfirmarSenha.label(class="form-label") }}
+      {{ form.ConfirmarSenha(class="form-control", placeholder="Confirme sua senha") }}      
+    </div>
+    {{ form.Submit(class="btn btn-primary") }}  
+
+  </form>
+</div>
  </body>
  </html>

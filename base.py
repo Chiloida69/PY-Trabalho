@@ -1,19 +1,41 @@
 from flask import Flask, render_template
+from flask_wtf import FlaskForm # import FlaskForm from flask_wtf que faz 
+from dotenv import load_dotenv #gerencia chaves de ambiente
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired, Email, Length, EqualTo
 import os
-from supabase import create_client, Client
-# Initialize Supabase client
-url: str = os.environ.get("https://dsbdurojqeclyncssnek.supabase.co")
-key: str = os.environ.get("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzYmR1cm9qcWVjbHluY3NzbmVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NjA0MzksImV4cCI6MjA3OTEzNjQzOX0.U6OZ2b2Vws4fAjt4jrgQXlMHC1r00phCq5jaumKPu0c")   
-supabase: Client = create_client(url, key)
+# 1. Carrega as variáveis do arquivo .env
+load_dotenv()
+
+#formulario de cadastro
+class CadastroForm(FlaskForm):
+    PrimeiroNome = StringField('Primeiro Nome', validators=[DataRequired(), Length(min=2, max=30)])
+    Sobrenome = StringField('Sobrenome', validators=[DataRequired(), Length(min=2, max=30)])
+    CPF = StringField('CPF', validators=[DataRequired(), Length(min=11, max=14)])
+    Email = StringField('Email', validators=[DataRequired(), Email()])
+    Senha = PasswordField('Senha', validators=[DataRequired(), Length(min=6)])
+    ConfirmarSenha = PasswordField('Confirmar Senha', validators=[DataRequired(), EqualTo('Senha', message='As senhas devem coincidir')])
+    Submit = SubmitField('Cadastrar')
+#fim do formulario de cadastro
+
 # Initialize Flask app
 app = Flask(__name__)
-
-@app.route('/testgratis.html')
+# Ensure SECRET_KEY exists for Flask-WTF CSRF
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY') or 'dev-secret-key'
+#inicio da rota princiapal/ inicial
+@app.route('/')
 def main():
     return render_template('testgratis.html')
-@app.route('/templates/cadastro.html')
+#Fim da rota principal
+
+#Iniciando a rota de cadastro
+@app.route('/templates/cadastro.html', methods=['GET', 'POST'])
+
 def cadastro():
-    return render_template('cadastro.html')
+    form = CadastroForm()
+    return render_template('cadastro.html', form=form)
+#Fim da rota de cadastro
+
 
 if __name__ == '__main__':
     app.run(debug=True)

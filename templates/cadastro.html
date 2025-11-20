@@ -36,34 +36,54 @@
   </div>
 </nav>
 <!-- Fim da navbar -->
+
 <!-- Inicio formulario cadastro -->
+<div class="Center_Cad">
 <div class="container_cadastro">
   <form method="post">
     {{ form.hidden_tag() }} <!-- Proteção contra CSRF -->
-    <h2>cadastro</h2>
-    <div class="mb-3">  
-      {{ form.PrimeiroNome.label(class="form-label") }}
+    <h2 id="tc">Cadastro</h2>
+    <div class="row">
+    <div class="col">
+    <div class="mb-3" id="nome1">  
+
       {{ form.PrimeiroNome(class="form-control", placeholder="Digite seu primeiro nome") }}
     </div>
-    <div class="mb-3">
-      {{ form.Sobrenome.label(class="form-label") }}
+    </div>
+    <div class="col">
+    <div class="mb-3" id="nome2">
+      
       {{ form.Sobrenome(class="form-control", placeholder="Digite seu sobrenome") }}
     </div> 
-    <div class="mb-3">
-      {{ form.Email.label(class="form-label") }}
+    </div>
+    </div>
+    <div class="mb-3" id="CPF"> 
+      {{ form.CPF(class="form-control", placeholder="Digite seu CPF") }}
+    </div>
+    <div class="mb-3" id="email1">
+
       {{ form.Email(class="form-control", placeholder="Digite seu email") }}
     </div>
-    <div class="mb-3">
-      {{ form.Senha.label(class="form-label") }}
+     <div class="row">
+    <div class="col">
+    <div  class="Senha">
+
       {{ form.Senha(class="form-control", placeholder="Digite sua senha") }}      
     </div>
-    <div class="mb-3">
-      {{ form.ConfirmarSenha.label(class="form-label") }}
+    </div>
+    <div class="col">
+    <div  class="Senha">
+    
       {{ form.ConfirmarSenha(class="form-control", placeholder="Confirme sua senha") }}      
     </div>
-    {{ form.Submit(class="btn btn-primary") }}  
+    </div>
+    </div>
+
+    <div id="Submit">{{ form.Submit(class="btn btn-primary") }}</div>
+      
 
   </form>
+</div>
 </div>
  </body>
  </html>

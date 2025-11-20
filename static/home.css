@@ -13,6 +13,9 @@ body {
 #carrossel {
     margin: bottom 5px; 
 }
+#NAV{
+    background-color: #8000ff;
+}
 .boxcontainer {
     padding: 0%;
     display: flex;
@@ -34,6 +37,9 @@ body {
     justify-items: center;
     padding: 5px;
 }
+.box,h1{
+    font-size: 35px;
+}
 #box2 {
     border-radius: 20px;
     background-color: #8000ff;
@@ -49,7 +55,7 @@ body {
     padding-top: 18px;
 }
 .boxcontainer h2 {
-    font-size: 2.5em;
+    
     margin-bottom: 20px;
 }
 #box2,a {

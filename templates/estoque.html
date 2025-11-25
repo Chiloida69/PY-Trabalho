@@ -29,10 +29,10 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{ url_for('cadastro') }}">Cadastre-se</a>
+          <a class="nav-link active" aria-current="page" href="{{ url_for('novo_produto') }}">Cadastrar</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+          <a class="nav-link" href="{{ url_for('consulta') }}">Estoque</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="">Home</a>
@@ -70,50 +70,54 @@
 
             <!-- Tabela de Produtos -->
             <div class="tabela-container">
-                <table class="table table-dark table-hover mb-0">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Time</th>
-                            <th scope="col">Modelo</th>
-                            <th scope="col">Ano</th>
-                            <th scope="col">Tamanho</th>
-                            <th scope="col">Qtd. Estoque</th>
-                            <th scope="col" class="text-end">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- MUDANÇA 2: Loop Jinja2 para gerar linhas dinamicamente -->
-                        {% for produto in lista_produtos %}
-                        <tr>
-                            <th scope="row">{{ loop.index }}</th> <!-- Contador automático 1, 2, 3... -->
-                            <td>{{ produto.NomeTime }}</td> 
+               <table class="table table-dark table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Foto</th> 
+                        <th scope="col">Time</th>
+                        <th scope="col">Modelo</th>
+                        <th scope="col">Ano</th>
+                        <th scope="col">Tamanho</th>
+                        <th scope="col">Qtd. Estoque</th>
+                        <th scope="col" class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for produto in lista_produtos %}
+                    <tr>
+                        <th scope="row" class="align-middle">{{ loop.index }}</th>
+                        
+                        <td class="align-middle">
+                            {% if produto.ImagemURL %}
+                                <img src="{{ produto.ImagemURL }}" alt="Foto" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
+                            {% else %}
+                                <span class="text-muted" style="font-size: 0.8rem;">Sem foto</span>
+                            {% endif %}
+                        </td>
 
-                            <td>{{ produto.Modelo }}</td>
-
-                            <td>{{ produto.Ano }}</td>
-
-                            <td>{{ produto.Tamanho }}</td>
-                            
-                            <td>
-                                <!-- Lógica simples para mudar a cor se o estoque for baixo (opcional) -->
-                                <span class="badge {{ 'bg-success' if produto.Quantidade > 5 else 'bg-danger' }}">
-                                     {{ produto.Quantidade }} un
-                                </span>
-                            </td>
-                            <td class="text-end">
-                                <button class="btn btn-sm btn-outline-light"><i class="bi bi-pencil"></i></button>
-                                <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                            </td>
-                        </tr>
-                        {% else %}
-                        <!-- Esse bloco aparece se a lista estiver vazia -->
-                        <tr>
-                            <td colspan="6" class="text-center">Nenhum produto encontrado.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        <td class="align-middle">{{ produto.NomeTime }}</td> 
+                        <td class="align-middle">{{ produto.Modelo }}</td>
+                        <td class="align-middle">{{ produto.Ano }}</td>
+                        <td class="align-middle">{{ produto.Tamanho }}</td>
+                        
+                        <td class="align-middle">
+                            <span class="badge {{ 'bg-success' if produto.Quantidade > 5 else 'bg-danger' }}">
+                                    {{ produto.Quantidade }} un
+                            </span>
+                        </td>
+                        <td class="text-end align-middle">
+                            <button class="btn btn-sm btn-outline-light"><i class="bi bi-pencil"></i></button>
+                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="text-center">Nenhum produto encontrado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
             </div>
 
         </div>

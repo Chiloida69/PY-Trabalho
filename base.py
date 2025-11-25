@@ -5,7 +5,6 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 import os
 from supabase import create_client, Client
-import login
 # 1. Carrega as variáveis do arquivo .env
 load_dotenv()
 
@@ -72,11 +71,14 @@ def cadastro():
         try:
             response = supabase.table('Usuários').insert(data).execute()
             
-            return 'Cadastro realizado com sucesso!'
+            return render_template('login.html')
         except Exception as e:
             return f'Erro ao conectar com o banco de dados: {e}'
     return render_template('cadastro.html', form=form)
 #Fim da rota de cadastro
+
+
+#Iniciando a rota de login
 @app.route('/templates/login.html', methods=['GET','POST'])
 def login():
     form = Login_F()
@@ -92,7 +94,7 @@ def login():
             
             # Verificação correta: se a lista 'usuarios' tiver algo dentro, o login é válido
             if usuarios: 
-                return "Login realizado com sucesso! Bem-vindo."
+                return render_template('home.html')
             else:
                 return "Falha no login. Email ou senha incorretos."
                 
@@ -105,6 +107,9 @@ def login():
 
     return render_template('login.html', form=form)
 #Fim da rota de login    
+@app.route('/templates/home.html')
+def home():
+    return render_template('home.html') 
     
     
 

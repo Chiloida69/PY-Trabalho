@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock.Flow - Novo Produto</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='novo_produto.css') }}">
+</head>
+<body>
+
+        <!-- Navbar inicio -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ url_for('main') }}"> Stock.Flow </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ url_for('cadastro') }}">Cadastre-se</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+        </li>
+      </ul>
+      <span class="navbar-text">
+        Organize seu estoque com facilidade!
+      </span>
+    </div>
+  </div>
+</nav>
+<!-- Fim da navbar -->
+
+
+    <div class="main-content">
+        
+        <div class="card-formulario">
+            <h2 class="titulo-form">Novo Produto</h2>
+            
+            <form method="POST" action="{{ url_for('novo_produto') }}">
+                
+                <div class="mb-3">
+                    <input type="text" name="nome_time" class="form-control input-custom" placeholder="Nome do time" required>
+                </div>
+                <div class="mb-3">
+                    <input type="text" name="modelo" class="form-control input-custom" placeholder="Modelo da camisa" required> 
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <input type="number" name="ano" class="form-control input-custom" placeholder="Ano" required>
+                    </div>
+                    <div class="col-6">
+                        <input type="text" name="tamanho" class="form-control input-custom" placeholder="Tamanho" required>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <input type="number" name="quantidade" class="form-control input-custom" placeholder="Quantidade no estoque" required>
+                </div>
+
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="submit" class="btn btn-dark-custom">Cadastrar</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

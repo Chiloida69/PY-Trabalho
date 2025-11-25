@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from flask_wtf import FlaskForm # import FlaskForm from flask_wtf que faz 
 from dotenv import load_dotenv #gerencia chaves de ambiente
 from wtforms import StringField, PasswordField, SubmitField
@@ -110,9 +110,73 @@ def login():
 @app.route('/templates/home.html')
 def home():
     return render_template('home.html') 
-    
-    
 
+
+# Rota de Cadastro de Produto
+@app.route('/novo_produto', methods=['GET', 'POST'])
+def novo_produto():
+    if request.method == 'POST':
+        # 1. Captura o que foi digitado nos inputs pelo "name"
+        nome_time = request.form['nome_time']
+        ano = request.form['ano']
+        tamanho = request.form['tamanho']
+        quantidade = request.form['quantidade']
+        modelo = request.form['modelo']  # Adicionando o campo 'modelo' conforme esperado na consulta
+        
+        # 2. Cria o dicionário para enviar ao Supabase
+        # IMPORTANTE: As chaves (Lado esquerdo) devem ser EXATAMENTE iguais 
+        # aos nomes das colunas criadas no seu banco de dados Supabase.
+        data_produto = {
+            'NomeTime': nome_time,    # Verifique se a coluna no banco é 'NomeTime' ou 'nome_time'
+            'Ano': int(ano),          # Convertendo para número inteiro
+            'Tamanho': tamanho,
+            'Quantidade': int(quantidade), # Convertendo para número inteiro
+            'Modelo': modelo  # Adicionando o campo 'modelo' conforme esperado na consulta
+        }
+
+        try:
+            # 3. Insere na tabela 'Produtos'
+            response = supabase.table('Produtos').insert(data_produto).execute()
+            
+            # Depois de cadastrar com sucesso, redireciona para a home
+            return redirect(url_for('home'))
+            
+        except Exception as e:
+            return f"Erro ao cadastrar o produto no banco: {e}"
+    
+    # Se for GET (apenas acessando a página), mostra o formulário
+    return render_template('novo_produto.html')
+
+
+# --- Rota de Consulta ---
+@app.route('/consulta', methods=['GET'])
+def consulta():
+    # Pega o termo digitado na busca (name="q" no HTML)
+    termo = request.args.get('q')
+    
+    lista_exibida = []
+
+    try:
+        if termo:
+            # Se tem pesquisa, busca no Supabase filtrando pela coluna 'NomeTime'
+            # ilike faz uma busca que ignora maiúsculas/minúsculas (case-insensitive)
+            # O f'%{termo}%' serve para buscar o texto em qualquer parte do nome
+            response = supabase.table('Produtos').select('*').ilike('NomeTime', f'%{termo}%').execute()
+        else:
+            # Se não tem pesquisa, busca TODOS os produtos
+            response = supabase.table('Produtos').select('*').execute()
+        
+        # O Supabase retorna os dados dentro de response.data
+        lista_exibida = response.data
+
+    except Exception as e:
+        print(f"Erro ao buscar dados no Supabase: {e}")
+        lista_exibida = []
+
+    # Renderiza o template enviando a lista e o termo pesquisado
+    # Importante: termo if termo else "" evita enviar None para o HTML
+    return render_template('estoque.html', lista_produtos=lista_exibida, termo_pesquisa=termo if termo else "")
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

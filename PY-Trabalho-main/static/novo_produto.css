@@ -1,0 +1,57 @@
+/* novo_produto.css */
+
+/* Estilo do Cartão Roxo Central */
+.card-formulario {
+    background-color: #9a4d9e; /* Mesmo roxo dos botões da home */
+    width: 100%;
+    max-width: 600px; /* Largura máxima para não ficar gigante em telas grandes */
+    padding: 40px;
+    border-radius: 30px; /* Bordas bem arredondadas como na foto */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    color: white;
+}
+
+/* Título "Novo Produto" */
+.titulo-form {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 500;
+    font-size: 2rem;
+}
+
+/* Estilização dos Inputs (Campos de texto) */
+.input-custom {
+    border-radius: 10px;       /* Cantos arredondados */
+    border: none;              /* Sem borda cinza padrão */
+    padding: 12px 15px;        /* Espaçamento interno */
+    background-color: #f8f9fa; /* Fundo quase branco */
+    font-size: 1rem;
+}
+
+/* Remove a borda azul padrão do navegador ao clicar no input */
+.input-custom:focus {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+    border-color: transparent;
+}
+
+/* Botão "Cadastrar" (Preto/Escuro) */
+.btn-dark-custom {
+    background-color: #0d0d0d; /* Preto quase absoluto */
+    color: white;
+    border-radius: 8px;
+    padding: 10px 0;
+    font-weight: 600;
+    border: none;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-dark-custom:hover {
+    background-color: #333333; /* Cinza escuro ao passar o mouse */
+    transform: scale(1.02);
+}
+
+/* Placeholder (texto de dica dentro do input) */
+::placeholder {
+    color: #999;
+    opacity: 1;
+}

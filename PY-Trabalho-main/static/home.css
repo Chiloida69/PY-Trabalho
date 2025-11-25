@@ -1,0 +1,89 @@
+/* home.css */
+
+/* --- Configuração do Corpo da Página --- */
+body {
+    background-color: #2c2c2c; /* Fundo cinza escuro */
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+/* --- Navbar (Barra do topo) --- */
+.navbar {
+    background-color: #ffffff;
+    padding: 15px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.navbar-brand, .nav-link, .navbar-text {
+    color: #333 !important; /* Texto escuro */
+}
+
+.navbar-text {
+    color: #666 !important;
+    font-size: 0.9rem;
+}
+
+/* --- Layout Central --- */
+.main-content {
+    flex: 1; 
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+}
+
+/* --- O Botão Roxo (Estilo Pílula) --- */
+.botao-roxo-grande {
+    background-color: #9a4d9e; /* Roxo vibrante */
+    color: white;
+    
+    width: 350px;              /* Largura fixa */
+    height: 100px;             /* Altura reduzida para formato pílula */
+    border-radius: 50px;       /* Bordas totalmente redondas */
+    border: none;
+    
+    /* Centralização do texto */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    font-size: 1.4rem;
+    font-weight: 500;
+    
+    transition: transform 0.2s, background-color 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.botao-roxo-grande:hover {
+    background-color: #af62b3; 
+    transform: scale(1.02);
+    color: white;
+}
+
+/* Remove a seta padrão do Bootstrap */
+.dropdown-toggle::after {
+    display: none;
+}
+
+/* --- Menu Dropdown --- */
+.dropdown-menu {
+    width: 350px; /* Mesma largura do botão */
+    border-radius: 15px;
+    margin-top: 10px !important;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border: none;
+}
+
+.dropdown-item {
+    padding: 12px;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}

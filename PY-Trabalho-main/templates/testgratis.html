@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='test.css') }}">
+    
+    <title>Stock.Flow</title>
+</head>
+<body>
+    <!-- Navbar inicio -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ url_for('main') }}"> Stock.Flow </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ url_for('cadastro') }}">Cadastre-se</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+        </li>
+      </ul>
+      <span class="navbar-text">
+        Organize seu estoque com facilidade!
+      </span>
+    </div>
+  </div>
+</nav>
+<!-- Fim da navbar -->
+<!-- Inicio carrossel -->
+<div id="carrossel">
+    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="10000">
+        <img src="/static/foto1.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item" data-bs-interval="2000">
+        <img src="/static/foto2.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+        <img src="/static/foto3.jpg" class="d-block w-100" alt="...">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+    </div> 
+</div>
+<div class="boxcontainer">
+  <div class="box">
+    <h1>Cansado de perder vendas por não achar o produto?</h1>
+<h3>Não existe nada pior do que o cliente pedir e você não saber se tem o item. A desorganização do estoque é o principal inimigo do seu fluxo de caixa.
+O Stock.Flow organiza sua empresa. Saiba o que entra, o que sai e o que precisa ser reposto com apenas alguns cliques. Elimine os "furos" de estoque e os erros manuais hoje mesmo.</h3>
+
+<h2>Dê adeus às planilhas infinitas</h2>
+
+</div>
+ <div id="box2">
+  <a href="/templates/cadastro.html">  <P>Faça seu teste grátis</P></a>
+  </div>
+</div>
+ 
+</body>
+</body>
+</html>

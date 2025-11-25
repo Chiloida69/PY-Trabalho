@@ -35,22 +35,31 @@
   </div>
 </nav>
 <!-- Fim da navbar -->
+ <div class="head">
+    <h1>Seja bem-vindo ao Stock.Flow</h1>
+ </div>
 
 
 <div  class="container text-center" id="box">
     <div class="container text-center">
         <div class="row row-cols-2">
-            <div class="col"><p>Cadastro de Produtos</p></div>
-            <div class="col"><p>Consulta de estoque</p></div>
+            <div class="col"></div>
+            <div class="col"></div>
 
             <div class="col">
                 <div class="containerBox">
+                  <a href="{{ url_for('novo_produto') }}">
+                  <p>Cadastro de Produtos</p>
+                </a>
                 </div>
             </div>
 
 
             <div class="col">
                 <div class="containerBox">
+                  <a href="{{ url_for('consulta') }}">
+                  <p>Consulta de Estoque</p>
+                  </a>
                 </div>
             </div>
         </div>

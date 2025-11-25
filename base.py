@@ -4,19 +4,38 @@ from dotenv import load_dotenv #gerencia chaves de ambiente
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 import os
+from supabase import create_client, Client
+import login
 # 1. Carrega as variáveis do arquivo .env
 load_dotenv()
+
+#conecção com o supabase
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_KEY')
+
+# Cria o cliente do Supabase  
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY) 
 
 #formulario de cadastro
 class CadastroForm(FlaskForm):
     PrimeiroNome = StringField('Primeiro Nome', validators=[DataRequired(), Length(min=2, max=30)])
     Sobrenome = StringField('Sobrenome', validators=[DataRequired(), Length(min=2, max=30)])
     CPF = StringField('CPF', validators=[DataRequired(), Length(min=11, max=14)])
-    Email = StringField('Email', validators=[DataRequired(), Email()])
-    Senha = PasswordField('Senha', validators=[DataRequired(), Length(min=6)])
-    ConfirmarSenha = PasswordField('Confirmar Senha', validators=[DataRequired(), EqualTo('Senha', message='As senhas devem coincidir')])
+    Email = StringField('Email', validators=[DataRequired(), Email(message='Email inválido')])
+    Senha = PasswordField('Senha', validators=[DataRequired(), Length(min=6), EqualTo('ConfirmarSenha', message='As senhas devem ser iguais')])
+    ConfirmarSenha = PasswordField('Confirmar Senha', validators=[DataRequired(), EqualTo('Senha', message='As senhas devem ser iguais')])
     Submit = SubmitField('Cadastrar')
 #fim do formulario de cadastro
+
+
+#formulario de login
+class Login_F(FlaskForm):
+    Email = StringField('Email', validators=[DataRequired(), Email(message='Email inválido')])
+    Senha = PasswordField('Senha', validators=[DataRequired(), Length(min=6)])
+    Submit = SubmitField('Login')
+#fim do formulario de login
+
+    
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -33,8 +52,61 @@ def main():
 
 def cadastro():
     form = CadastroForm()
+    
+    if form.validate_on_submit():
+        # Coleta os dados do formulário
+        primeiro_nome = form.PrimeiroNome.data
+        sobrenome = form.Sobrenome.data
+        cpf = form.CPF.data
+        email = form.Email.data
+        senha = form.Senha.data
+        
+        # Insere os dados no Supabase
+        data = {
+            'PrimeiroNome': primeiro_nome,
+            'SobreNome': sobrenome,
+            'CPF': cpf,
+            'Email': email,
+            'Senha': senha
+        }
+        try:
+            response = supabase.table('Usuários').insert(data).execute()
+            
+            return 'Cadastro realizado com sucesso!'
+        except Exception as e:
+            return f'Erro ao conectar com o banco de dados: {e}'
     return render_template('cadastro.html', form=form)
 #Fim da rota de cadastro
+@app.route('/templates/login.html', methods=['GET','POST'])
+def login():
+    form = Login_F()
+    
+    if form.validate_on_submit():
+        email = form.Email.data
+        senha = form.Senha.data
+        
+        try:
+            # Consulta no Supabase
+            response = supabase.table('Usuários').select('*').eq('Email', email).eq('Senha', senha).execute()
+            usuarios = response.data # Isso é uma lista: [] se vazio, ou [{...}] se achou
+            
+            # Verificação correta: se a lista 'usuarios' tiver algo dentro, o login é válido
+            if usuarios: 
+                return "Login realizado com sucesso! Bem-vindo."
+            else:
+                return "Falha no login. Email ou senha incorretos."
+                
+        except Exception as e:
+            return f"Erro de conexão: {e}"
+    
+    # Se o formulário não for válido (ou se for apenas carregar a página), mostra os erros se houver
+    if form.errors:
+        print("Erros de validação:", form.errors)
+
+    return render_template('login.html', form=form)
+#Fim da rota de login    
+    
+    
 
 
 if __name__ == '__main__':

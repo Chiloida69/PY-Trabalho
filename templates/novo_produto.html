@@ -22,10 +22,10 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{ url_for('cadastro') }}">Cadastre-se</a>
+          <a class="nav-link active" aria-current="page" href="{{ url_for('novo_produto') }}">Cadastrar</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+          <a class="nav-link" href="{{ url_for('consulta') }}">Estoque</a>
         </li>
       </ul>
       <span class="navbar-text">
@@ -42,7 +42,7 @@
         <div class="card-formulario">
             <h2 class="titulo-form">Novo Produto</h2>
             
-            <form method="POST" action="{{ url_for('novo_produto') }}">
+            <form method="POST" action="{{ url_for('novo_produto') }}" enctype="multipart/form-data">
                 
                 <div class="mb-3">
                     <input type="text" name="nome_time" class="form-control input-custom" placeholder="Nome do time" required>
@@ -50,7 +50,6 @@
                 <div class="mb-3">
                     <input type="text" name="modelo" class="form-control input-custom" placeholder="Modelo da camisa" required> 
                 </div>
-
                 <div class="row mb-3">
                     <div class="col-6">
                         <input type="number" name="ano" class="form-control input-custom" placeholder="Ano" required>
@@ -61,11 +60,20 @@
                 </div>
 
                 <div class="mb-4">
-                    <input type="number" name="quantidade" class="form-control input-custom" placeholder="Quantidade no estoque" required>
+                    <input type="number" name="quantidade" class="form-control input-custom" placeholder="Quantidade no estoque"  required>
                 </div>
-
-                <div class="d-grid gap-2 col-6 mx-auto">
-                    <button type="submit" class="btn btn-dark-custom">Cadastrar</button>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                      <input type="file" name="imagem_produto" class="form-control input-custom" accept="image/*" required>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                      <button type="submit" class="btn btn-dark-custom">Cadastrar</button>
+                    </div>
+                  </div>
+                 </div>
                 </div>
             </form>
 

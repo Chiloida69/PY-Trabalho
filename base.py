@@ -5,6 +5,8 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 import os
 from supabase import create_client, Client
+from werkzeug.utils import secure_filename
+
 # 1. Carrega as variáveis do arquivo .env
 load_dotenv()
 
@@ -71,7 +73,7 @@ def cadastro():
         try:
             response = supabase.table('Usuários').insert(data).execute()
             
-            return render_template('login.html')
+            return redirect(url_for('login'))
         except Exception as e:
             return f'Erro ao conectar com o banco de dados: {e}'
     return render_template('cadastro.html', form=form)
@@ -96,7 +98,7 @@ def login():
             if usuarios: 
                 return render_template('home.html')
             else:
-                return "Falha no login. Email ou senha incorretos."
+                return redirect(url_for('login'))
                 
         except Exception as e:
             return f"Erro de conexão: {e}"
@@ -116,35 +118,54 @@ def home():
 @app.route('/novo_produto', methods=['GET', 'POST'])
 def novo_produto():
     if request.method == 'POST':
-        # 1. Captura o que foi digitado nos inputs pelo "name"
+        # 1. Captura os dados de texto
         nome_time = request.form['nome_time']
         ano = request.form['ano']
         tamanho = request.form['tamanho']
         quantidade = request.form['quantidade']
-        modelo = request.form['modelo']  # Adicionando o campo 'modelo' conforme esperado na consulta
+        modelo = request.form['modelo']
         
-        # 2. Cria o dicionário para enviar ao Supabase
-        # IMPORTANTE: As chaves (Lado esquerdo) devem ser EXATAMENTE iguais 
-        # aos nomes das colunas criadas no seu banco de dados Supabase.
-        data_produto = {
-            'NomeTime': nome_time,    # Verifique se a coluna no banco é 'NomeTime' ou 'nome_time'
-            'Ano': int(ano),          # Convertendo para número inteiro
-            'Tamanho': tamanho,
-            'Quantidade': int(quantidade), # Convertendo para número inteiro
-            'Modelo': modelo  # Adicionando o campo 'modelo' conforme esperado na consulta
-        }
+        # 2. Captura o arquivo de imagem
+        arquivo = request.files['imagem_produto']
+        url_imagem = "" 
 
         try:
-            # 3. Insere na tabela 'Produtos'
+            if arquivo:
+                nome_arquivo = secure_filename(arquivo.filename)
+                arquivo_bytes = arquivo.read()
+                
+                # CONFIGURAÇÃO:
+                # Bucket = 'imagens_produtos'
+                # Pasta interna = 'camisas/'
+                caminho_storage = f"camisas/{nome_arquivo}"
+                
+                # Envia para o bucket 'imagens_produtos'
+                supabase.storage.from_('imagens_produtos').upload(
+                    path=caminho_storage, 
+                    file=arquivo_bytes, 
+                    file_options={"content-type": arquivo.content_type}
+                )
+                
+                # Pega o link público do bucket 'imagens_produtos'
+                url_imagem = supabase.storage.from_('imagens_produtos').get_public_url(caminho_storage)
+            
+            # 3. Cria o dicionário para o banco
+            data_produto = {
+                'NomeTime': nome_time,
+                'Ano': int(ano),
+                'Tamanho': tamanho,
+                'Quantidade': int(quantidade),
+                'Modelo': modelo,
+                'ImagemURL': url_imagem
+            }
+
             response = supabase.table('Produtos').insert(data_produto).execute()
             
-            # Depois de cadastrar com sucesso, redireciona para a home
-            return redirect(url_for('home'))
+            return redirect(url_for('novo_produto'))
             
         except Exception as e:
-            return f"Erro ao cadastrar o produto no banco: {e}"
+            return f"Erro ao cadastrar (Storage ou Banco): {e}"
     
-    # Se for GET (apenas acessando a página), mostra o formulário
     return render_template('novo_produto.html')
 
 
